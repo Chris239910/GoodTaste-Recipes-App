@@ -8,7 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.text.Editable;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.text.TextWatcher;
+import android.util.Log;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     List<FoodData> myFoodList, myQuickList, myRecentList;
     FoodData mFoodData;
     TextView textViewName;
+    MyAdapter myAdapter;
+    EditText txt_Search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +52,9 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerViewRecent = (RecyclerView)findViewById(R.id.recycleViewRecent);
 //      GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,1 );
 //      mRecyclerView.setLayoutManager(gridLayoutManager);
+        txt_Search = findViewById(R.id.txt_searchtext);
 
-        myFoodList = new ArrayList<>();
+        myFoodList = new ArrayList<FoodData>();
 
         mFoodData = new FoodData("Frozen Zabaglione", "Ingredients: \n 6 large egg yolks \n 1 pinch salt \n white sugar \n  2/3 cup dry Marsala wine \n 1 cup cold heavy cream. \n \n Step by Step: \n Step 1 \n Whisk egg yolks, salt, sugar, and Marsala wine together in a metal mixing bowl. \n Step 2 \n Set the bowl over a medium-low heat, or over a double boiler. Hold the bowl with one hand using a towel or pot-holder, while whisking constantly with the other. Continue cooking until the mixture is very thick and reaches the ribbon stage, about 10 minutes. \n Step 3 \n Remove custard from heat and allow to cool completely, preferably over an ice bath, whisking occasionally, 20 to 30 minutes. \n Step 4 \n Pour cold heavy cream into another bowl and whisk until soft peaks form. Transfer into the cooled custard and gently fold everything together until just barely combined; do not overmix. \n Step 5 \n Transfer into an airtight container, cover the top with plastic wrap, and seal. Place in a freezer until firm, at least 4 hours, or up to overnight.", "4 hours", R.drawable.frozenzabaglione);
         myFoodList.add(mFoodData);
@@ -63,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        MyAdapter myAdapter = new MyAdapter(MainActivity.this, myFoodList);
+        //MyAdapter myAdapter = new MyAdapter(MainActivity.this, myFoodList);
+        myAdapter = new MyAdapter(MainActivity.this, myFoodList);
         mRecyclerView.setAdapter(myAdapter);
 
         //Quick Menu recyclerView
@@ -93,5 +102,47 @@ public class MainActivity extends AppCompatActivity {
         MyAdapter myAdapter3 = new MyAdapter(MainActivity.this, myRecentList);
         mRecyclerViewRecent.setAdapter(myAdapter3);
 
+        txt_Search.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("Food","This is TextChanged");
+                String txt_searchtext = txt_Search.getText().toString();
+                filter(txt_searchtext);
+
+            }
+        });
+
     }
+    private void filter(String text) {
+        ArrayList<FoodData> filterList = new ArrayList<>();
+        Log.d("Food", "This is running!");
+
+        for(FoodData itemName: myFoodList){
+            if(itemName.getItemName().toLowerCase().contains(text.toLowerCase())){
+                filterList.add(itemName);
+                Log.d("Food", "The item: "+itemName.getItemName()+" is added!");
+            }
+            else{
+                Log.d("Food","Not found");
+            }
+        }
+        // new
+        if (filterList.size()>0){
+            Log.d("Food",filterList.toString());
+            myAdapter.filteredList(filterList);
+        }
+
+    }
+
 }

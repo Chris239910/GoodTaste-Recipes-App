@@ -1,4 +1,7 @@
 package com.example.finalproject;
+
+import androidx.annotation.NonNull;
+
 //Chris
 public class FoodData {
     private String itemName;
@@ -27,6 +30,12 @@ public class FoodData {
 
     public int getItemImage() {
         return itemImage;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return itemName;
     }
 }
 
