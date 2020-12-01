@@ -137,6 +137,24 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Food","Not found");
             }
         }
+        for(FoodData itemName: myQuickList){
+            if(itemName.getItemName().toLowerCase().contains(text.toLowerCase())){
+                filterList.add(itemName);
+                Log.d("Food", "The item: "+itemName.getItemName()+" is added!");
+            }
+            else{
+                Log.d("Food","Not found");
+            }
+        }
+        for(FoodData itemName: myRecentList){
+            if(itemName.getItemName().toLowerCase().contains(text.toLowerCase())){
+                filterList.add(itemName);
+                Log.d("Food", "The item: "+itemName.getItemName()+" is added!");
+            }
+            else{
+                Log.d("Food","Not found");
+            }
+        }
         // new
         if (filterList.size()>0){
             Log.d("Food",filterList.toString());

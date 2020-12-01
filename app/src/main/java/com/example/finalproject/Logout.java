@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Logout extends AppCompatActivity {
-    TextView textViewUsername;
+    TextView textViewUsername, textViewBack;
     Button btnLogout;
     FirebaseAuth mAuth;
 
@@ -22,6 +22,7 @@ public class Logout extends AppCompatActivity {
         textViewUsername = findViewById(R.id.textViewUsername);
         String email =getIntent().getStringExtra("email");
         textViewUsername.setText(email);
+        textViewBack = findViewById(R.id.textViewBack);
         btnLogout = findViewById(R.id.btnLogout);
         mAuth = FirebaseAuth.getInstance();
 
@@ -34,6 +35,16 @@ public class Logout extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        textViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = textViewUsername.getText().toString();
+                Intent intent = new Intent(Logout.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("email", email);
+                startActivity(intent);
+            }
 
+    });
     }
 }
