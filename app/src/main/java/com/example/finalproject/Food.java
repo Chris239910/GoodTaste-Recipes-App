@@ -1,15 +1,12 @@
 package com.example.finalproject;
 
-import androidx.annotation.NonNull;
-
-//Chris
-public class FoodData {
+public class Food {
     private String itemName;
     private String itemDescription;
     private String itemTime;
-    private int itemImage;
+    private String itemImage;
 
-    public FoodData(String itemName, String itemDescription, String itemTime, int itemImage) {
+    public Food(String itemName, String itemDescription, String itemTime, String itemImage) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.itemTime = itemTime;
@@ -40,18 +37,15 @@ public class FoodData {
         this.itemTime = itemTime;
     }
 
-    public int getItemImage() {
+    public String getItemImage() {
         return itemImage;
     }
 
-    public void setItemImage(int itemImage) {
+    public void setItemImage(String itemImage) {
         this.itemImage = itemImage;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return itemName;
+    public void food(){
+
     }
 }
-

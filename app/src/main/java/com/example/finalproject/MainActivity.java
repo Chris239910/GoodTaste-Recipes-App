@@ -1,35 +1,68 @@
 package com.example.finalproject;
-//Chris
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.text.Editable;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.text.TextWatcher;
-import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import android.text.TextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-    RecyclerView mRecyclerView, mRecyclerViewQuick, mRecyclerViewRecent;
-    List<FoodData> myFoodList, myQuickList, myRecentList;
+public class MainActivity<button> extends AppCompatActivity implements View.OnClickListener{
+    RecyclerView mRecyclerView, mRecyclerViewQuick, mRecyclerViewRecent,mRecyclerViewNew;
+    List<FoodData> myFoodList;
+    List<FoodData> myQuickList;
+    List<FoodData> myRecentList;
+    List<FoodData> myNewList;
     FoodData mFoodData;
     TextView textViewName;
     MyAdapter myAdapter;
     EditText txt_Search;
 
+    //WangYuntao
+    public Button btnAdd;
+    private Object FirebaseApplication;
+    private DatabaseReference databaseReference;
+    private ValueEventListener eventListener;
+    ProgressDialog progressDialog;
+
+    private void initUI() {
+        btnAdd = findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener((View.OnClickListener) this);
+    }
+
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.btnAdd:
+                Intent intent = new Intent(MainActivity.this, Add.class);
+                //intent.setClass(getApplicationContext(),Add.class);
+                this.startActivity(intent);
+                break;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initUI();
         textViewName = findViewById(R.id.textViewUsername);
         String email =getIntent().getStringExtra("email");
         textViewName.setText(email);
@@ -50,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         mRecyclerViewQuick = (RecyclerView)findViewById(R.id.recycleViewQuick);
         mRecyclerViewRecent = (RecyclerView)findViewById(R.id.recycleViewRecent);
+        mRecyclerViewNew= (RecyclerView) findViewById(R.id.recycleViewNew);//WangYuntao
 //      GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,1 );
 //      mRecyclerView.setLayoutManager(gridLayoutManager);
         txt_Search = findViewById(R.id.txt_searchtext);
@@ -160,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Food",filterList.toString());
             myAdapter.filteredList(filterList);
         }
+
 
     }
 
