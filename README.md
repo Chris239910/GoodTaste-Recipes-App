@@ -7,4 +7,6 @@ The user need to have an account in order to access to the application, which us
 After authentication session, the user can access to the main page of the application
 ![image](https://user-images.githubusercontent.com/56431971/113627039-ec2e8380-9630-11eb-9f39-360562b7c769.png)
 
+![image](https://user-images.githubusercontent.com/56431971/113627154-18e29b00-9631-11eb-9231-8a3edfe23281.png)
+
 
